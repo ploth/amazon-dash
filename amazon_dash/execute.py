@@ -36,7 +36,7 @@ def get_shell(name):
     return ['/usr/bin/env', name]
 
 
-def run_as_cmd(cmd, user, shell='bash'):
+def run_as_cmd(cmd, user, shell='ash'):
     """Get the arguments to execute a command as a user
 
     :param str cmd: command to execute
