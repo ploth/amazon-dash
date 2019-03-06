@@ -4,6 +4,8 @@ from requests import RequestException
 from amazon_dash.exceptions import InvalidConfig, ConfirmationError
 from amazon_dash._compat import JSONDecodeError
 
+from matrix_client.api import MatrixHttpApi
+
 class ConfirmationBase(object):
     name = None
     required_fields = ()
@@ -86,9 +88,23 @@ class PushbulletConfirmation(ConfirmationBase):
             raise ConfirmationError('Invalid JSON response in pushbullet confirmation (server error?)')
 
 
+class MatrixConfirmation(ConfirmationBase):
+
+    name = 'matrix'
+    required_fields = ('homeserver', 'token', 'roomid')
+
+    def send(self, message, success=True):
+        try:
+            matrix = MatrixHttpApi(self.data['homeserver'], token=self.data['token'])
+            response = matrix.send_message(self.data['roomid'], message)
+        except:
+            raise
+
+
 CONFIRMATIONS = {
     'telegram': TelegramConfirmation,
     'pushbullet': PushbulletConfirmation,
+    'matrix': MatrixConfirmation,
     'disabled': DisabledConfirmation,
 }
 
