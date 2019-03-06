@@ -109,6 +109,7 @@ SCHEMA = {
                             "enum": [
                                 'telegram',
                                 'pushbullet',
+                                'matrix',
                             ]
                         },
                         "token": {
@@ -119,6 +120,12 @@ SCHEMA = {
                         },
                         "to": {
                             "type": "integer"
+                        },
+                        "homeserver": {
+                            "type": "string"
+                        },
+                        "roomid": {
+                            "type": "string"
                         }
                     },
                     "required": ["service"],
